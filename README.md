@@ -1,2 +1,15 @@
-# Firas-Abouzahr-Research
-This is a collective repository and documentation/presentation hub spanning all of my research that I am able to share publicly.
+# Introduction
+For the past 2 years, I have actively participated in particle phyiscs, nuclear physics, and positron emission tomography research, all with a focus on detector design, development, and optimization. Detector R\&D employs a surprisingly rich variety of fields including engineering, solid-state physics, chemistry, and of course particle/nuclear physics making it a truly versatile niche in physics research. 
+I have come to believe this field forms a perfect balance between computational research, hardware design, hands-on experimentation, and data analysis and now hope to continue push the capabilities of radiation detection along many energy frontiers for the rest of my career. Specifically, my interests are in the searches for exotic particles and decays (both acclerator and non-accelerator based), beam diagnostics and dynamics, and medical imaging. 
+
+# Firas Abouzahr's Collective Repository 
+This is a collective repository and documentation/presentation hub spanning all of my research at the University of Texas in Dr. Karol Lang's high energy physics research group of which I can publicly share. I actively conduct research over a variety of projects and collaborations listed below with quick introductions to the experiments themselves and my/my group's role in them. 
+
+# LEGEND-1000 
+LEGEND-1000 (Large Enriched Germanium Experiment for Neutrinoless Double Beta Decay) is a proposed successor to the LEGEND-200, GERDA, and MAJORANA DEMONSTRATOR experiments. LEGEND-1000's goal to observe the theoretical process of neutrinoless double beta decay which will unlock physics beyond the standard model such as the majorana-nature of neutrinos and consequentially the violation of lepton number conservation. LEGEND is expected to lead the world in a variety of experimental parameters that will give it an exceptional chance to find the standard model violating decay. One of these parameters is background supression, an extremely important ability for all neutrinoless double beta decay and dark matter experiments. One of the ways by which LEGEND-1000 will reject background noise is via the collective appartus known as the LAr Veto System. The LAr Veto system consists of a curtain of TPB-coated optical fibers surrounding the main germanium detector strings. The purpose of this system is to detect background radiation originating outside of the germainum detectors that is deposited within the surrounding liquid argon. Our group is currently working on a revised model of the LAr model that will consist of EJ-280 (a WLS material) plates rather than the current model of fibers. Geant4 simulations have shown that the plate model has improved photodetection efficiency than the fiber model and hence could have the potential to be a better background tagger. Besides for simulations, our group is strided forward in experimental verification as well. If experiment can replicate our simulations, we will propose this plate-based LAr Veto Systsem. As of now my role in our research has include: 
+
+* Geant4 simulations to study the wavelength shifting, photon transport, and overall photodetection efficiency of EJ-280 plates.
+* Dark box experiments to characterize wavelength shifting materials, optic fibers, and photodetectors relevant to our R\&D of the plate-based veto system using various radiation sources and an electron gun. 
+
+# NuMI Beamline
+Our group 
