@@ -78,53 +78,11 @@ def getGammaStopping(gammaframe,opticalframe,copyNum,position,color = 'black'):
     plt.legend()
     
     return 0
-
-# outputs energy spectrum from a single pixel and hence energy resolution
-# the function itself outputs a photopeak cut value to be used a restriction on our timing plots
-def getEres(df,copyNum,bins,cut,customguess = False,guess = [0,1,1],color = 'black'):
     
-    # get data from requested SiPM pixel
-    sipmData = getCopyNumber(df,copyNum)
-    ene = sipmData.EventID.value_counts().to_numpy()
-    
-    # plotting and curve fitting
-    fig,ax = plt.subplots()
-    bins = np.linspace(ene.min(),ene.max(),bins)
-    yEne,xEne,_ = ax.hist(ene,bins = bins, )
-    centers = np.array([0.5 * (bins[i] + bins[i+1]) for i in range(len(bins) - 1)])
-    peaklocation = np.where(yEne == yEne.max())[0][0]
-    mu_guess = xEne[peaklocation]
-    
-    if customguess == False:
-        guess = [mu_guess,np.std(ene),yEne.max()]
-    
-    else:
-        guess = guess
-    
-    p,c = curve_fit(gaussian,centers,yEne,p0 = guess)
-    xspace = np.linspace(xEne.min(),xEne.max(),1000)
-    ax.plot(xspace,gaussian(xspace,*p),c = 'red')
-    FWHM = 2.355 * p[1]
-    Eres = FWHM / p[0] * 100
-    photopeakcut = p[0] - cut*p[1]
-    
-    # add titles, statistics, and labels
-    plt.title('Energy Spectrum',color = color)
-    ax.set_ylabel('Event Counts',color = color)
-    ax.set_xlabel('Photon Counts',color = color)
-    ax.text(.01, .99,'Mean = ' + str(round(p[0],2)),va='top', transform=ax.transAxes)
-    ax.text(.01, .94, 'std = ' + str(round(p[1],2)),va='top', transform=ax.transAxes)
-    ax.text(.01, .89,'Eres = ' + str(round(Eres,2)),va='top', transform=ax.transAxes)
-    ax.text(.01, .84,'Counts = ' + str(sum(yEne)),va='top', transform=ax.transAxes)
-    plt.xticks(color=color)
-    plt.yticks(color=color)
-    return photopeakcut
-    
-# plots a histogram of detection time differences between 2 pixels and hence outputs the coincidence time resolution (CTR)
+# gives the coincidence time resolution between two SiPM pixels (one LOR)
 # LORpixels is given as a list of 2 SiPM channels' copy numbers in coincidence
 # n chooses the threshold number of scintillation photons considered a detection of a gamma
-# photopeakcut is used to choose what events to include in time differences based on a photopeak cut
-# returns bin widths so we can maintain constant width when comparing plots.
+# photopeakcut is used to choose what events to include in time differences based on a photopeak cut, put 0 if you dont want it
 def getCTR(df,LORpixels,bins,bounds,photopeakcut,n=5, color = 'black',customwidth = False, width = np.linspace(0,1,1)):
     fig,ax = plt.subplots()
     # get data organized first
@@ -175,11 +133,51 @@ def getCTR(df,LORpixels,bins,bounds,photopeakcut,n=5, color = 'black',customwidt
     plt.ylabel('Counts',color = color)
     plt.text(.01, .99,'Mean = ' + str(round(p[0],2)),va='top', transform=ax.transAxes)
     plt.text(.01, .93,'std = ' + str(round(abs(p[1]),2)),va='top', transform=ax.transAxes)
-    plt.text(.01, .87,'CTR = ' + str(round(FWHM,2)),va='top', transform=ax.transAxes)
+    plt.text(.01, .87,'CTR = ' + str(round(FWHM,4)),va='top', transform=ax.transAxes)
     plt.text(.01, .81,'Counts = ' + str(round(len(timeDiff),2)),va='top', transform=ax.transAxes)
     plt.xticks(color=color)
     plt.yticks(color=color)
     return bins
+
+# returns energy deposition plot and energy resolution for a given SiPM pixel (based on copy number)
+def getEres(df,copyNum,bins,cut,customguess = False,guess = [0,1,1],color = 'black'):
+    
+    # get data from requested SiPM pixel
+    sipmData = getCopyNumber(df,copyNum)
+    ene = sipmData.EventID.value_counts().to_numpy()
+    
+    # plotting and curve fitting
+    fig,ax = plt.subplots()
+    bins = np.linspace(ene.min(),ene.max(),bins)
+    yEne,xEne,_ = ax.hist(ene,bins = bins, )
+    centers = np.array([0.5 * (bins[i] + bins[i+1]) for i in range(len(bins) - 1)])
+    peaklocation = np.where(yEne == yEne.max())[0][0]
+    mu_guess = xEne[peaklocation]
+    
+    if customguess == False:
+        guess = [mu_guess,np.std(ene),yEne.max()]
+    
+    else:
+        guess = guess
+    
+    p,c = curve_fit(gaussian,centers,yEne,p0 = guess)
+    xspace = np.linspace(xEne.min(),xEne.max(),1000)
+    ax.plot(xspace,gaussian(xspace,*p),c = 'red')
+    FWHM = 2.355 * p[1]
+    Eres = FWHM / p[0] * 100
+    photopeakcut = p[0] - cut*p[1]
+    
+    # add titles, statistics, and labels
+    plt.title('Energy Spectrum',color = color)
+    ax.set_ylabel('Event Counts',color = color)
+    ax.set_xlabel('Photon Counts',color = color)
+    ax.text(.01, .99,'Mean = ' + str(round(p[0],2)),va='top', transform=ax.transAxes)
+    ax.text(.01, .94, 'std = ' + str(round(p[1],2)),va='top', transform=ax.transAxes)
+    ax.text(.01, .89,'Eres = ' + str(round(Eres,2)),va='top', transform=ax.transAxes)
+    ax.text(.01, .84,'Counts = ' + str(sum(yEne)),va='top', transform=ax.transAxes)
+    plt.xticks(color=color)
+    plt.yticks(color=color)
+    return photopeakcut
 
 # gives scintillation light spectrun of our given scintillant
 # mainly used as check for material accuracy
@@ -198,10 +196,15 @@ def getEmissionSpectrum(df,bins,material,color = 'black'):
     return 0
 
 def getTimeDecay(df,timeconstant,A=1,bins=100,copynum=0,EventID=0,allevents=False,color = 'black'):
+    
     fig,ax = plt.subplots()
+    
     if allevents == False:
         df = df[df.EventID == EventID]
+    
     df = getCopyNumber(df,copynum)
+
+        
     t = df.Time.to_numpy()
     bins = np.linspace(min(df.Time),max(df.Time),bins)
     y,x,_ = ax.hist(t,bins = bins)
@@ -224,3 +227,71 @@ def getTimeDecay(df,timeconstant,A=1,bins=100,copynum=0,EventID=0,allevents=Fals
     plt.xticks(color = color)
     plt.yticks(color = color)
     return 0
+
+def getMeanNumCerenkovPhotons(df,):
+    cevents = []
+    for i in list(set(df.EventID)):
+        tempdf = df[df.EventID == i]
+        df_ceren = tempdf[tempdf.Process == 'Cerenkov']
+        cevents.append(np.shape(df_ceren)[0])
+    
+    mean = np.mean(cevents)
+    return mean
+
+def getPhotoDetectionEff(df,master):
+    totalPhotons = np.shape(master)[0]
+    totalDetectedPhotons = np.shape(df)[0]
+    PDE = totalDetectedPhotons/totalPhotons
+    return PDE
+
+
+def getTimeDiffs(df,LORpixels,photopeakcut,n=5):
+    fig,ax = plt.subplots()
+    # get data organized first
+    left = getCopyNumber(df,LORpixels[0])
+    right = getCopyNumber(df,LORpixels[1])
+    eventIDs = list(set(df.EventID))
+    
+    # find gamma detections and grab time differences
+    timeDiff = []
+    cerenkovTimeDiff = []
+    halfCerenkovTimeDiff = []
+    fullCerenkovTimeDiff = []
+    
+    for eventNum in eventIDs:
+        photoElectric = df[df.EventID == eventNum]
+    
+        leftDf = left[left.EventID == eventNum]
+        timeL = leftDf.Time.to_numpy()
+        leftTots = leftDf.EventID.value_counts().to_numpy()
+        tL = np.sort(leftDf.Time)
+        processL = leftDf.Process.to_numpy()
+    
+        rightDf = right[right.EventID == eventNum]
+        rightTots = rightDf.EventID.value_counts().to_numpy()
+        timeR = rightDf.Time.to_numpy()
+        tR = np.sort(rightDf.Time)
+        processR = rightDf.Process.to_numpy()
+    
+        if len(tR) >= n and len(tL) >= n and leftTots >= photopeakcut[0] and rightTots >= photopeakcut[1]:
+            tL = tL[n-1]
+            tR = tR[n-1]
+            timeDiff.append(tR - tL)
+            L = np.where(timeL == tL)
+            processL = processL[L[0][0]]
+            R = np.where(timeR == tR)
+            processR = processR[R[0][0]]
+            
+            if processR == 'Cerenkov' or processL == 'Cerenkov' and processR != processL:
+                halfCerenkovTimeDiff.append(tR - tL)
+                cerenkovTimeDiff.append(tR - tL)
+            elif processR == 'Cerenkov' and processL == 'Cerenkov':
+                fullCerenkovTimeDiff.append(tR - tL)
+                cerenkovTimeDiff.append(tR - tL)
+            
+            
+        if eventNum % 20 == 0:
+            print("Running... (Event #: " + str(eventNum) + ")")
+            
+    timeDiff = np.array(timeDiff)
+    return timeDiff,cerenkovTimeDiff,halfCerenkovTimeDiff,fullCerenkovTimeDiff
