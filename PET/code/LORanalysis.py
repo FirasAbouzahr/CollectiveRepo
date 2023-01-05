@@ -1,8 +1,8 @@
 '''
 Firas Abouzahr
 
-This script is used to do pixel by pixel (e.g., single LOR) performance analysis
-as well as material behavior analysis for Geant4 simulated PET scanners\
+This script is used to do pixel by pixel (e.g., single line-of-response) performance analysis
+as well as material behavior analysis for Geant4 simulated PET scanners
 
 '''
 
@@ -83,7 +83,7 @@ def getGammaStopping(gammaframe,opticalframe,copyNum,position,color = 'black'):
 # LORpixels is given as a list of 2 SiPM channels' copy numbers in coincidence
 # n chooses the threshold number of scintillation photons considered a detection of a gamma
 # photopeakcut is used to choose what events to include in time differences based on a photopeak cut, put 0 if you dont want it
-def getCTR(df,LORpixels,bins,bounds,photopeakcut,n=5, color = 'black',customwidth = False, width = np.linspace(0,1,1)):
+def getCTR(df,LORpixels,bins,bounds,photopeakcut,n=5, color = 'black',customwidth = False, width = np.linspace(0,1,1),title = ''):
     fig,ax = plt.subplots()
     # get data organized first
     left = getCopyNumber(df,LORpixels[0])
@@ -128,7 +128,7 @@ def getCTR(df,LORpixels,bins,bounds,photopeakcut,n=5, color = 'black',customwidt
     FWHM = abs(2.355 * p[1])
     
     # add statistics, titles, labels to plot
-    plt.title('Timing Differences',color = color)
+    plt.title(title,color = color)
     plt.xlabel('Time Differences (ns)',color = color)
     plt.ylabel('Counts',color = color)
     plt.text(.01, .99,'Mean = ' + str(round(p[0],2)),va='top', transform=ax.transAxes)
@@ -139,8 +139,9 @@ def getCTR(df,LORpixels,bins,bounds,photopeakcut,n=5, color = 'black',customwidt
     plt.yticks(color=color)
     return bins
 
-# returns energy deposition plot and energy resolution for a given SiPM pixel (based on copy number)
-def getEres(df,copyNum,bins,cut,customguess = False,guess = [0,1,1],color = 'black'):
+# plots out energy deposition with normal fit and energy resolution
+# returns photopeak cut to cut data compton scattering data from coincidence time resolution
+def getEres(df,copyNum,bins,cut,guess = [0,1,1],color = 'black'):
     
     # get data from requested SiPM pixel
     sipmData = getCopyNumber(df,copyNum)
@@ -151,15 +152,7 @@ def getEres(df,copyNum,bins,cut,customguess = False,guess = [0,1,1],color = 'bla
     bins = np.linspace(ene.min(),ene.max(),bins)
     yEne,xEne,_ = ax.hist(ene,bins = bins, )
     centers = np.array([0.5 * (bins[i] + bins[i+1]) for i in range(len(bins) - 1)])
-    peaklocation = np.where(yEne == yEne.max())[0][0]
-    mu_guess = xEne[peaklocation]
-    
-    if customguess == False:
-        guess = [mu_guess,np.std(ene),yEne.max()]
-    
-    else:
-        guess = guess
-    
+
     p,c = curve_fit(gaussian,centers,yEne,p0 = guess)
     xspace = np.linspace(xEne.min(),xEne.max(),1000)
     ax.plot(xspace,gaussian(xspace,*p),c = 'red')
@@ -178,6 +171,60 @@ def getEres(df,copyNum,bins,cut,customguess = False,guess = [0,1,1],color = 'bla
     plt.xticks(color=color)
     plt.yticks(color=color)
     return photopeakcut
+
+# plots channel pairs together, do not use to get photopeak cut, only use getEres.
+def getPairEres(df,copyNums,bins,cut,guess = [0,1,1]):
+    
+    # get data from requested SiPM pixel
+    pixel0 = getCopyNumber(df,copyNums[0])
+    pixel1 = getCopyNumber(df,copyNums[1])
+    
+    ene0 = pixel0.EventID.value_counts().to_numpy()
+    mask0 = ene0 > 10
+    ene0 = ene0[mask0]
+    
+    ene1 = pixel1.EventID.value_counts().to_numpy()
+    mask1 = ene1 > 10
+    ene1 = ene1[mask1]
+    
+    # plotting and curve fitting
+    fig,ax = plt.subplots()
+    bins = np.linspace(ene0.min(),ene0.max(),bins)
+    
+    yEne0,xEne0,_ = ax.hist(ene0,bins = bins,label = 'Channel ' + str(copyNums[0]) + ' Spectrum',color = 'green',alpha = 0.5)
+    yEne1,xEne1,_ = ax.hist(ene1,bins = bins,label = 'Channel ' + str(copyNums[1]) + ' Spectrum',color = 'blue',alpha = 0.5)
+    centers = np.array([0.5 * (bins[i] + bins[i+1]) for i in range(len(bins) - 1)])
+    
+    p0,c0 = curve_fit(gaussian,centers,yEne0,p0 = guess)
+    p1,c1 = curve_fit(gaussian,centers,yEne1,p0 = guess)
+    
+    xspace = np.linspace(xEne0.min(),xEne0.max(),1000)
+    ax.plot(xspace,gaussian(xspace,*p0),c = 'red',linestyle = 'dashed')
+    ax.plot(xspace,gaussian(xspace,*p1),c = 'red',linestyle = 'dashed')
+    FWHM0 = 2.355 * p0[1]
+    Eres0 = abs(FWHM0 / p0[0]) * 100
+    FWHM1 = 2.355 * p1[1]
+    Eres1 = abs(FWHM1 / p1[0]) * 100
+    
+    # add titles, statistics, and labels
+    plt.title('Energy Spectrum (' + str(copyNums[0]) + ',' + str(copyNums[1]) + ')' )
+    ax.set_ylabel('Event Counts')
+    ax.set_xlabel('Photon Counts')
+    
+    ax.text(.01, .99,'Stats (Channel '  + str(copyNums[0]) + ')',va='top', transform=ax.transAxes)
+    ax.text(.01, .94,'Mean = ' + str(round(p0[0],2)),va='top', transform=ax.transAxes)
+    ax.text(.01, .89, 'std = ' + str(round(abs(p0[1]),2)),va='top', transform=ax.transAxes)
+    ax.text(.01, .84,'Eres = ' + str(round(Eres0,2)),va='top', transform=ax.transAxes)
+    ax.text(.01, .79,'Counts = ' + str(sum(yEne0)),va='top', transform=ax.transAxes)
+    ax.text(.01, .71,'Stats (Channel '  + str(copyNums[1]) + ')',va='top', transform=ax.transAxes)
+    ax.text(.01, .66,'Mean = ' + str(round(p1[0],2)),va='top', transform=ax.transAxes)
+    ax.text(.01, .61, 'std = ' + str(round(abs(p1[1]),2)),va='top', transform=ax.transAxes)
+    ax.text(.01, .56,'Eres = ' + str(round(Eres1,2)),va='top', transform=ax.transAxes)
+    ax.text(.01, .51,'Counts = ' + str(sum(yEne1)),va='top', transform=ax.transAxes)
+    plt.xticks()
+    plt.yticks()
+    fig.legend(bbox_to_anchor = (1.05,1))
+    return 0
 
 # gives scintillation light spectrun of our given scintillant
 # mainly used as check for material accuracy
@@ -228,7 +275,7 @@ def getTimeDecay(df,timeconstant,A=1,bins=100,copynum=0,EventID=0,allevents=Fals
     plt.yticks(color = color)
     return 0
 
-def getMeanNumCerenkovPhotons(df,):
+def getMeanNumCerenkovPhotons(df):
     cevents = []
     for i in list(set(df.EventID)):
         tempdf = df[df.EventID == i]
@@ -244,9 +291,8 @@ def getPhotoDetectionEff(df,master):
     PDE = totalDetectedPhotons/totalPhotons
     return PDE
 
-
+# f
 def getTimeDiffs(df,LORpixels,photopeakcut,n=5):
-    fig,ax = plt.subplots()
     # get data organized first
     left = getCopyNumber(df,LORpixels[0])
     right = getCopyNumber(df,LORpixels[1])
@@ -295,3 +341,16 @@ def getTimeDiffs(df,LORpixels,photopeakcut,n=5):
             
     timeDiff = np.array(timeDiff)
     return timeDiff,cerenkovTimeDiff,halfCerenkovTimeDiff,fullCerenkovTimeDiff
+
+# to get channelPairs
+def getChannelPairs(df,rule):
+    pairs = []
+    eventIDs = list(set(df.EventID))
+    for event in eventIDs:
+        print(event)
+        dfevent = df[df.EventID == event]
+        nums = list(set(dfevent.CopyNum))
+        if len(nums) == 2:
+            pairs.append(nums)
+        
+    return pairs
