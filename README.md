@@ -26,7 +26,7 @@ Besides high-energy physics, my group is also interested in the design and optim
 * Design and development of other related PET scanner instrumentation such as cooling systems and calibration systems. 
 * Design of novel detection and analysis techniques to improve PET medical imaging. 
 
-# My research InterestsL
+# My research Interests:
 * Detector R&D of all kinds: ranging from particle detectors to medical imaging instruments.
 * Radiation interactions with matter.
 * Rare decays and exotic particles.
