@@ -24,7 +24,7 @@ Besides high-energy physics, my group is also interested in the design and optim
 
 * Design, development, comissioning, and characterization of novel PET scanners through Geant4 simulations and hands-on experimentation. 
 * Design and development of other related PET scanner instrumentation such as cooling systems.
-* Design of novel detection and analysis techniques to improve PET medical imaging.
+* Development of novel detection and analysis techniques to improve PET medical imaging.
 
 # My research Interests:
 * Detector R&D of all kinds: ranging from particle detectors to medical imaging instruments.
