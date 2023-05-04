@@ -33,7 +33,7 @@ PETSimulation $: mkdir build && cd build
 ```
 build $: source /path/to/geant4-install/bin/geant4.sh
 ```
-* Compile with cmake and then run make:
+* Compile with cmake:
 
 ```
 PETSimulation $: cmake GEANT4_DIR=/path/to/geant4-install/lib/Geant4-10.7.4 /path/to/Geant4PETSimulations
@@ -81,7 +81,12 @@ CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /Users/Firas/Desktop/PETSimulation/build
+```
+* And run make:
+
+```
 build $: # now run make: 
 build $: make -j4 
 ```
+
 * I'll skip the long output that follows from running make. Finally, after all of this, run the command ./PETSim while still in the same build directory and your simulation will start!
