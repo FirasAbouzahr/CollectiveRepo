@@ -15,12 +15,12 @@ Now, here's how to compile and run this code:
 * Start by saving this directory while keeping the above comments in mind (like choosing only one geometry .cc script to move to Geant4PETSimulations/source/geometry) and move into into another diretory, say we call it PETSimulation. 
 
 ```
-$:PETSimulation  pwd 
+$:PETSimulation pwd 
 /path/to/PETSimulation
 ```
 * Geant4PETSimulations should be located inside of it now. 
 ```
-$:PETSimulation  ls 
+$:PETSimulation ls 
 Geant4PETSimulations
 ```
 * Now create a build directory in the same main directory PETSimulation and move there. 
