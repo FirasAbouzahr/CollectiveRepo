@@ -36,7 +36,10 @@ build $: source /path/to/geant4-install/bin/geant4.sh
 * Compile with cmake and then run make:
 
 ```
-PETSimulation $: cmake GEANT4_DIR=/path/to/geant4-install/lib/Geant4-10.7.4 /path/to/Geant4PETSimulations #and now you should see an output like:
+PETSimulation $: cmake GEANT4_DIR=/path/to/geant4-install/lib/Geant4-10.7.4 /path/to/Geant4PETSimulations
+
+#and now you should see an output like:
+
 CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
   Compatibility with CMake < 2.8.12 will be removed from a future version of
   CMake.
@@ -77,8 +80,8 @@ CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
 -- Found XQuartzGL: /usr/X11R6/include  
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/feef/Desktop/PETSimulation/build
-
+-- Build files have been written to: /Users/Firas/Desktop/PETSimulation/build
+build $: # now run make: 
 build $: make -j4 
 ```
 * I'll skip the long output that follows from running make. Finally, after all of this, run the command ./PETSim while still in the same build directory and your simulation will start!
