@@ -1,4 +1,4 @@
-# PET Simulations Using Geant4
+# Geant4 PET Simulations
 
 This directory includes all C++ codes needed to run our group's canonical Geant4-based PET simulations. This is a collective work from many group members in Dr. Lang's high-energy physics group. My main contributions are via novel geometries, materials, simulated sources, and some other contributions to more logistical source codes.
 
@@ -15,28 +15,28 @@ Now, here's how to compile and run this code:
 * Start by saving this directory while keeping the above comments in mind (like choosing only one geometry .cc script to move to Geant4PETSimulations/source/geometry) and move into into another diretory, say we call it PETSimulation. 
 
 ```
-$:PETSimulation pwd 
+PETSimulation $: pwd 
 /path/to/PETSimulation
 ```
 * Geant4PETSimulations should be located inside of it now. 
 ```
-$:PETSimulation ls 
+PETSimulation $: ls 
 Geant4PETSimulations
 ```
 * Now create a build directory in the same main directory PETSimulation and move there. 
 
 ```
-$:PETSimulation mkdir build && cd build 
+PETSimulation $: mkdir build && cd build 
 ```
 * We need to source Geant4 now.
 
 ```
-$:build source /path/to/geant4_install/bin/geant4.sh
+build $: source /path/to/geant4_install/bin/geant4.sh
 ```
 * Compile with cmake and then run make:
 
 ```
-$:PETSimulation cmake GEANT4_DIR=/path/to/geant4_install/lib/Geant4-10.7.4 /path/to/Geant4PETSimulations #and now you should see an output like:
+PETSimulation $: cmake GEANT4_DIR=/path/to/geant4_install/lib/Geant4-10.7.4 /path/to/Geant4PETSimulations #and now you should see an output like:
 CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
   Compatibility with CMake < 2.8.12 will be removed from a future version of
   CMake.
@@ -79,6 +79,6 @@ CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
 -- Generating done
 -- Build files have been written to: /Users/feef/Desktop/PETSimulation/build
 
-$:build make -j4 
+build $: make -j4 
 ```
 * I'll skip the long output that follows from running make. Finally, after all of this, run the command ./PETSim while still in the same build directory and your simulation will start!
