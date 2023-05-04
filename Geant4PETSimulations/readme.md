@@ -12,13 +12,13 @@ Note the following requirements to actually run this simulation:
 
 Now, here's how to compile and run this code: 
 
-* Start by saving this directory while keeping the above comments in mind (like choosing only one geometry .cc script to move to Geant4PETSimulations/source/geometry) and move into into another diretory, say we call it PETSimulation. 
+* Start by saving this directory while keeping the above comments in mind (like choosing only one geometry .cc script) and place it into into another diretory, say we call it PETSimulation. 
 
 ```
 PETSimulation $: pwd 
 /path/to/PETSimulation
 ```
-* Geant4PETSimulations should be located inside of it now. 
+* Geant4PETSimulations should be located inside of PETSimulation, check with: 
 ```
 PETSimulation $: ls 
 Geant4PETSimulations
@@ -31,12 +31,12 @@ PETSimulation $: mkdir build && cd build
 * We need to source Geant4 now.
 
 ```
-build $: source /path/to/geant4_install/bin/geant4.sh
+build $: source /path/to/geant4-install/bin/geant4.sh
 ```
 * Compile with cmake and then run make:
 
 ```
-PETSimulation $: cmake GEANT4_DIR=/path/to/geant4_install/lib/Geant4-10.7.4 /path/to/Geant4PETSimulations #and now you should see an output like:
+PETSimulation $: cmake GEANT4_DIR=/path/to/geant4-install/lib/Geant4-10.7.4 /path/to/Geant4PETSimulations #and now you should see an output like:
 CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
   Compatibility with CMake < 2.8.12 will be removed from a future version of
   CMake.
