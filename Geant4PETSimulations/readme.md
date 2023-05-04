@@ -1,16 +1,18 @@
 # PET Simulations Using Geant4 Monte Carlo Simulations
 
-This directory includes all data files needed to run our groups canonical PET simulations in Geant4. This is a collective work from many group members in Dr. Lang's high-energy physics group. My main contributions are via novel geometries, materials, simulated sources, and some other logistical source codes as well.
+This directory includes all C++ codes needed to run our group's canonical Geant4-based PET simulations. This is a collective work from many group members in Dr. Lang's high-energy physics group. My main contributions are via novel geometries, materials, simulated sources, and some other contributions to more logistical source codes.
 
-Inside of PETSimulation/source/geometry you'll want to choose a single geometry script and move into the source directory with the other .cc scripts. You will also only want to choose one of the PETmain.cc files to keep. PETmainMPI.cc is only for running in parallel with MPI, it also requires some additonal changes to the other files that I will cover later. I personally use this only when running large geometries like total body PET which can contains 5000+ individual crystals. 
+Inside of Geant4PETSimulations/source/geometry you'll want to choose a single geometry script and move into the source directory with the other .cc scripts. You will also only want to choose one of the PETmain.cc files to keep. PETmainMPI.cc is only for running in parallel with MPI, it also requires some additonal changes to the other files that I will cover later. I personally use this only when running large geometries a full body PET scanner which can contain 5000+ individual crystals. 
 
-Note the following requirements to actually run this simulation package:
+Note the following requirements to actually run this simulation:
 * Geant4 10.7.4 or older (in versions greater than 11, some pieces of this code of have been depreciated)
 * cmake
 * xquartz or openGL (check Geant4 documentation for other alternatives too)
 * for mac: XCode and installation of XCode Command Line Tools 
 
-Here's how to compile and run this code: 
+Now, here's how to compile and run this code: 
+
+* Start by saving this directory while keeping the above comments in mind (like choosing only one geometry .cc script to move to Geant4PETSimulations/source/geometry) and move into into another diretory, say we call it PETSimulation. 
 
 ```
 $:PETSimulation  pwd 
@@ -21,12 +23,12 @@ $:PETSimulation  pwd
 $:PETSimulation  ls 
 Geant4PETSimulations
 ```
-* Now create a build directory in the same main directory PETSimulation and move into it. 
+* Now create a build directory in the same main directory PETSimulation and move there. 
 
 ```
 $:PETSimulation mkdir build && cd build 
 ```
-* We need to source Geant4 installation. See my other tutorial on this. 
+* We need to source Geant4 now.
 
 ```
 $:build source /path/to/geant4_install/bin/geant4.sh
@@ -77,6 +79,6 @@ CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
 -- Generating done
 -- Build files have been written to: /Users/feef/Desktop/PETSimulation/build
 
-$:build make -j4 # just run make now, I'll skip the long output here.
+$:build make -j4 
 ```
-* Finally, after all of this, run ./PETSim while still in the same build directory and your simulation will start!
+* I'll skip the long output that follows from running make. Finally, after all of this, run the command ./PETSim while still in the same build directory and your simulation will start!
