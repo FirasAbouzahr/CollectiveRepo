@@ -84,8 +84,7 @@ CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
 ```
 * And run make:
 
-```
-build $: # now run make: 
+``` 
 build $: make -j4 
 ```
 
