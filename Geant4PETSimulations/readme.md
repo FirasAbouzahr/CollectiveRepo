@@ -1,4 +1,4 @@
-# PET Simulations Using Geant4 Monte Carlo Simulations
+# PET Simulations Using Geant4
 
 This directory includes all C++ codes needed to run our group's canonical Geant4-based PET simulations. This is a collective work from many group members in Dr. Lang's high-energy physics group. My main contributions are via novel geometries, materials, simulated sources, and some other contributions to more logistical source codes.
 
