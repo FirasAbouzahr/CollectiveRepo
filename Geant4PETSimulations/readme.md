@@ -1,6 +1,6 @@
 # Geant4 PET Simulations
 
-This directory includes all C++ codes needed to run our group's canonical Geant4-based PET simulations. This is a collective work from many group members in Dr. Lang's high-energy physics group. My main contributions are via novel geometries, materials, simulated sources, and some other contributions to more logistical source codes.
+This directory includes all C++ codes needed to run our group's canonical Geant4-based PET simulations. This is a collective work from many group members in Dr. Lang's high-energy physics group. My main contributions are via novel geometries, materials, simulated sources, and technical aspects of the C++ code.
 
 Inside of Geant4PETSimulations/source/geometry you'll want to choose a single geometry script and move it into the source directory with the other .cc scripts. You will also only want to choose one of the PETmain.cc files to keep. PETmainMPI.cc is only for running in parallel with MPI, it also requires some additonal changes to the other files that I will cover later. I personally use this only when running large geometries like a full body PET scanner which can contain 5000+ individual crystals. 
 
