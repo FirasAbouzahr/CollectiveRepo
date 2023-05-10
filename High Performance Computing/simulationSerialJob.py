@@ -16,7 +16,7 @@ def job_submission(bashName,jobName,errorName,numNodes,
     file = open(bashName + '.bash', "w")
     
     commands = ['-J','-o','-N','-n','-p','-t','-A']
-    params = [bashName,jobName,errorName,str(numNodes),str(numInParallel),queue,allocationName]
+    params = [jobName,errorName,str(numNodes),str(numInParallel),queue,time,allocationName]
     file.write('#!/bin/bash' + '\n')
     
     for i,j in zip(commands,params):
