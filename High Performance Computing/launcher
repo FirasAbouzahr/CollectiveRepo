@@ -1,0 +1,5 @@
+./PETSim Dung.mac electron0.txt gamma0.txt scintillation0.txt detected0.txt 
+./PETSim Dung.mac electron1.txt gamma1.txt scintillation1.txt detected1.txt 
+./PETSim Dung.mac electron2.txt gamma2.txt scintillation2.txt detected2.txt 
+./PETSim Dung.mac electron3.txt gamma3.txt scintillation3.txt detected3.txt 
+./PETSim Dung.mac electron4.txt gamma4.txt scintillation4.txt detected4.txt 
