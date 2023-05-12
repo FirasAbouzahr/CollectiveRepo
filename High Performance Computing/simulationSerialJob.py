@@ -1,5 +1,13 @@
+# Firas Abouzahr
+
 # do not include file type extensions for file names
-def launcher_file(fileName,executable,macroFile,outputFiles,numInParallel):
+
+def launcher_file(fileName, # custom launcher file name
+                  executable, # name of simulation executable 
+                  macroFile, # name of macrofile that tells Geant4 what to execute in simulation
+                  outputFiles, # name of files to output data to 
+                  numInParallel): # number of simulations you want to run in parallel
+    
     file = open(fileName, "w")
     
     for nums in range(numInParallel):
@@ -9,9 +17,16 @@ def launcher_file(fileName,executable,macroFile,outputFiles,numInParallel):
             
         file.write('./' + executable + ' ' + macroFile + '.mac ' + outputString + '\n')
 
-def job_submission(bashName,jobName,errorName,numNodes,
-                   numInParallel,queue,time,allocationName,
-                   launcherDirectory,launcherName):
+def job_submission(bashName, # shell script file name
+                   jobName,  # name of the job, just for reference
+                   errorName, # log file to check for status & errors during job
+                   numNodes, # number of requested nodes to use 
+                   numInParallel, # number of parallel jobs per node
+                   queue, # respective supercomputer queue
+                   time, # run time of job (hh:mm:ss)
+                   allocationName, # name of allocation to charge job to 
+                   launcherDirectory, # directory where launcher file is located
+                   launcherName): # launcher file name
     
     file = open(bashName + '.bash', "w")
     
