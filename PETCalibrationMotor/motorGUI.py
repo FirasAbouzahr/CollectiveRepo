@@ -6,13 +6,14 @@ import serial
 
 '''
    
-This code is used to operate a step motor which moves a Germanium-76 line source across the length of a PET scanner for calibration.
-The code allows us to control the speed, distance, and cycles of the Ge-76. A simple GUI was coded to allow for simpler functionality.
+This code is used to operate a step motor which moves a Germanium-68 line source across the length of a PET scanner for calibration.
+The code allows us to control the speed, distance, and # of cycles for the movement of our line source across the detector face.
+A simple GUI is coded below to allow for simpler functionality.
     
 '''
 
 
-# logistical code
+# logistical code for connecting to the driver
 platform.system() == 'Darwin'
 ser = serial.Serial()
 ser.port = "/dev/cu.usbserial-AB0MICGP"
@@ -57,7 +58,7 @@ def killProgram():
     time.sleep(0.5)
     ser.close()
 
-# GUI code
+# code for the GUI interface itself
 window = tk.Tk()
 window.geometry("400x400")
 window.minsize(300,300)
