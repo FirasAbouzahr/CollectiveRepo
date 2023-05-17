@@ -1,3 +1,5 @@
+# Firas Abouzahr 
+
 from ProtonBeamHeader.py import *
 
 # although our readout electronics can already process data into singles, this serves as a way to do it ourselves to understand coincidence structure during beam spills better.
