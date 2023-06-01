@@ -80,7 +80,7 @@ print('The Coincidence Time Resolution is ' + str(np.round(CTR,2)) + ' ps')
 ## Plotting Coincidence Time Distribution with photopeak cuts
 - here we use SingleChannelEnergyResponse() and getCoincidenceTimeDiffs() together. We call SingleChannelEnergyResponse() twice, once for the left and right channels respectively. 
 - In getCoincidenceTimeDiffs() can set photocut to be True and use the return values of SingleChannelEnergyResponse() to cut the left and right channel data to be within 1.5$\sigma$ within their respective photopeaks. 
-- This can refine timing distributions to be narrower since this requires the timing differences to come from photoelectric effect events.
+- This can refine timing distributions to be narrower since this requires the timing differences to come from photoelectric effect events. Once again note that since the scintillator in question here is BGO, the photopeak cut is not particularly powerful, however, with a scintillator with a fast decay constant like LYSO, photopeak cuts will improve CTR tremendously.
 
 
 ```python
