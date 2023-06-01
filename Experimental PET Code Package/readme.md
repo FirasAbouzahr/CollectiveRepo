@@ -16,7 +16,7 @@ convertDataFrameToGeoID(df)
 
 
 
-# Plotting a single channel coincident energy spectrum
+## Plotting a single channel coincident energy spectrum
 - fitted with a gaussian to get energy resolution
 - SingleChannelEnergyResponse() purposefully leaves the figure open so we can edit plot aesthetics outside of the function, so after we call the function we set our own labels
 
@@ -43,7 +43,7 @@ print('The Energy Resolution is ' + str(np.round(Eres,2)) + '%')
     
 
 
-# Plotting Coincidence Time Distribution for a given Channel pair
+## Plotting Coincidence Time Distribution for a given Channel pair
 - fitted with a gaussian to get coincidence time resolution (CTR)
 - getCoincidenceTimeDiffs() purposefully leaves the figure open so we can edit plot aesthetics outside of the function, so after we call the function we set our own labels
 
