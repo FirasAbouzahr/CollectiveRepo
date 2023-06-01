@@ -4,7 +4,7 @@ This python code suite is used to analyze and visualize experimental data outlin
 - **detectorResponse.py** contains functions that can be used to generate important plots needed to characterize a detector's performance (e.g., energy spectra, coincidence time differences, etc) as well as their corresponding observables like energy resolution and coincidence timing resolution, respectively.
 - **experimentalPETAnalysis.ipynb** is a notebook with cells encompassing PETheader.py and detectorResponse.py as well as example cells directly below.
 
-Below showcases the use of select tools offered by this suite as would be shown in the example cells from experimentalPETAnalysis.ipynb:
+Below showcases the use of select tools offered by this suite as given in the example cells from experimentalPETAnalysis.ipynb:
 
 ## Read-in data and convert to geometric channel ID
 - getCoincidenceDataFrame() returns a pre-configured pandas dataframe
