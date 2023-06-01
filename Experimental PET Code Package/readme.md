@@ -4,7 +4,7 @@ This python code suite is used to analyze and visualize experimental data outlin
 - **detectorResponse.py** contains functions that can be used to generate important plots needed to characterize a detector's performance (e.g., energy spectra, coincidence time differences, etc) as well as their corresponding observables like energy resolution and coincidence timing resolution, respectively.
 - **experimentalPETAnalysis.ipynb** is a notebook with cells encompassing PETheader.py and detectorResponse.py as well as example cells directly below.
 
-Below showcases the use of select tools offered by this suite as given in the example cells from experimentalPETAnalysis.ipynb:
+Below showcases the use of select tools offered by this suite as given in the example cells from experimentalPETAnalysis.ipynb. The data being used here comes from two 16x8 BGO crystal arrays put in coincidence and irradiated with a 10 $\mu$Ci Na-22 source. BGO has notoriously poor timing resolution, so the results themselves are poor. An eventual goal of this code suite is to write software tailored to optimizing BGO-based detectors by utilizing Cherenkov radiation.
 
 ## Read-in data and convert to geometric channel ID
 - getCoincidenceDataFrame() returns a pre-configured pandas dataframe
