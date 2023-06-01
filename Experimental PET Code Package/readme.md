@@ -74,3 +74,44 @@ print('The Coincidence Time Resolution is ' + str(np.round(CTR,2)) + ' ps')
 
     
 ![png](CTR_example.png)
+
+
+
+## Plotting Coincidence Time Distribution with photopeak cuts
+- here we use SingleChannelEnergyResponse() and getCoincidenceTimeDiffs() together. We call SingleChannelEnergyResponse() twice, once for the left and right channels respectively. 
+- In getCoincidenceTimeDiffs() can set photocut to be True and use the return values of SingleChannelEnergyResponse() to cut the left and right channel data to be within 1.5$\sigma$ within their respective photopeaks. 
+- This can refine timing distributions to be narrower since this requires the timing differences to come from photoelectric effect events.
+
+
+```python
+leftchannel = 1415
+rightchannel = 154
+bins = 100
+sigma_cut = 2
+
+Eres_left,photopeakcut_left = SingleChannelEnergyResponse(df,leftchannel,bins,sigma_cut)
+plt.close() # we visalized this above, so let's close the figure to save memory
+Eres_right,photopeakcut_right = SingleChannelEnergyResponse(df,rightchannel,bins,sigma_cut)
+plt.close()
+
+# create our list of left and right photopeakcuts, should go [leftcuts,rightcuts]
+photopeakcutList = [photopeakcut_left,photopeakcut_right] 
+
+# plot the cut timing distribution!
+CTR_with_photopeakcuts = getCoincidenceTimeDiffs(df,leftchannel,rightchannel,100,photocut=True,photopeakcuts = photopeakcutList)
+plt.ylabel('Counts',fontsize = 18,color = 'white')
+plt.xlabel('Time Differences [ps]',fontsize = 18,color = 'white')
+plt.title('Time Difference Distribution (Channels 1415 & 154)\n' + '2$\sigma$ photopeak cut',fontsize = 18,color = 'white')
+plt.xticks(fontsize = 14,color = 'white')
+plt.yticks(fontsize = 14,color = 'white')
+
+print('The Coincidence Time Resolution is ' + str(np.round(CTR_with_photopeakcuts,2)) + ' ps')
+```
+
+    The Coincidence Time Resolution is 2102.7 ps
+
+
+
+
+    
+![png](CTR_example.png)
