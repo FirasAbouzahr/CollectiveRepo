@@ -36,7 +36,7 @@ print('The Energy Resolution is ' + str(np.round(Eres,2)) + '%')
 
 
     
-![png](output_3_1.png)
+![png](energy_example.png)
     
 
 
@@ -63,4 +63,4 @@ print('The Coincidence Time Resolution is ' + str(np.round(CTR,2)) + ' ps')
 
 
     
-![png](output_5_1.png)
+![png](CTR_example.png)
