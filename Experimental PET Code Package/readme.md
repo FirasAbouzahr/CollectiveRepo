@@ -114,4 +114,4 @@ print('The Coincidence Time Resolution is ' + str(np.round(CTR_with_photopeakcut
 
 
     
-![png](CTR_example.png)
+![png](CTR_photopeak_example.png)
