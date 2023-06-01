@@ -1,5 +1,10 @@
 # Experimental PET-Detector Response Code Package:
-This python code suite is used to analyze and visualize experimental data outlining the detector response of PET scanners using PETSys readout-electronics. This is an ongoing project and thus far has callable functions to obtain canoncial detector performance parameters such energy resolution and coincidence time resolution as well as visualize their related plots, energy specra and time difference distributions, respectively. Other important analyses functions are currently being worked on. The goal is to eventually publish this as a python package. Below showcases the use of select tools offered by this suite:
+This python code suite is used to analyze and visualize experimental data outlining the detector response of PET scanners using PETSys readout-electronics. This is an ongoing project and thus far has callable functions to obtain canoncial detector performance parameters such energy resolution and coincidence time resolution as well as visualize their related plots, energy specra and time difference distributions, respectively. Other important analyses functions are currently being worked on. The goal is to eventually publish this as a python package.
+- **PETheader.py** contains all technical functions that just have to do with data readin, manipulation, etc
+- **detectorResponse.py** contains functions that can be used to generate important plots needed to characterize a detector's performance (e.g., energy spectra, coincidence time differences, etc) as well as their corresponding observables like energy resolution and coincidence timing resolution, respectively.
+- **experimentalPETAnalysis.ipynb** is a notebook with cells encompassing PETheader.py and detectorResponse.py as well as example cells directly below.
+
+Below showcases the use of select tools offered by this suite as would be shown in the example cells from experimentalPETAnalysis.ipynb:
 
 ## Read-in data and convert to geometric channel ID
 - getCoincidenceDataFrame() returns a pre-configured pandas dataframe
