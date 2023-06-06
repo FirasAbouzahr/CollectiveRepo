@@ -67,7 +67,7 @@ print('σ (std) = ' + str(np.round(fit_params[2],2)) + ' charge in DAQ Units')
 
 
 ## Plotting Coincidence Time Distribution for a given Channel pair
-- getCoincidenceTimeDiffs() plots the coincidence detection timing difference distribution for a gievn coincident channel pair with a gaussian fit. It returns 2 items in the following order: the coincidence timing resolution (CTR) value (float) and the gaussian fit parameters (list).
+- getCoincidenceTimeDiffs() plots the coincidence detection timing difference distribution (with a gaussian fit) for a given coincident channel pair. It returns 2 items in the following order: the coincidence timing resolution (float) and the gaussian fit parameters (list).
 - getCoincidenceTimeDiffs() purposefully leaves the figure open so we can edit plot aesthetics outside of the function, so after we call the function we set our own labels. 
 - Below we look at the timing differnces from the lines-of-response (coincidence hits) betwwen the left and right channel IDs 1415 and 154, respectively.
 
@@ -109,8 +109,8 @@ print('σ (std) = ' + str(np.round(fit_params[2],2)) + ' ps')
 
 ## Plotting Coincidence Time Distribution with photopeak cuts
 - here we use SingleChannelEnergyResponse() and getCoincidenceTimeDiffs() together. We call SingleChannelEnergyResponse() twice, once for the left and right channels respectively. 
-- In getCoincidenceTimeDiffs(), we can set photocut to be True and use the return values of SingleChannelEnergyResponse() to cut the left and right channel data to only include detctions that fall 2$\sigma$ within their respective photopeaks. 
-- This can refine timing distributions to be narrower since this requires the timing differences to come from photoelectric effect events. Notice in the example below, we shave over 400 ps from our CTR! 
+- In getCoincidenceTimeDiffs(), we can set photocut to be True and use the return values of SingleChannelEnergyResponse() to cut the left and right channel coincidence data to only include detctions that fall 2$\sigma$ within their respective photopeaks. 
+- Cutting data on the photopeak can refine timing distributions to be narrower since this requires the timing differences to come from photoelectric effect events. Notice in the example below, we shave over 400 ps from our CTR! 
 
 
 ```python
