@@ -1,8 +1,8 @@
 # Experimental PET-Detector Response Code Package:
 This python code suite is used to analyze and visualize experimental data outlining the detector response of PET scanners using PETSys readout-electronics. This is an ongoing project and thus far has callable functions to obtain canoncial detector performance parameters such energy resolution and coincidence time resolution as well as visualize their related plots, energy specra and time difference distributions, respectively. Other important analyses functions are currently being worked on. The goal is to eventually publish this as a python package.
-- **PETheader.py** contains all technical functions that just have to do with data readin, manipulation, etc
-- **detectorResponse.py** contains functions that can be used to generate important plots needed to characterize a detector's performance (e.g., energy spectra, coincidence time differences, etc) as well as their corresponding observables like energy resolution and coincidence timing resolution, respectively.
-- **experimentalPETAnalysis.ipynb** is a notebook with cells encompassing PETheader.py and detectorResponse.py as well as example cells directly below.
+- **PETheader.py** contains all technical functions that deal with aspects such as data read-in and manipulation.
+- **detectorResponse.py** contains functions that can be used to generate important plots needed to characterize a detector's performance (e.g., energy spectra, coincidence time differences, etc) as well as their return their corresponding observables, energy resolution and coincidence timing resolution, respectively.
+- **experimentalPETAnalysis.ipynb** is a notebook with cells encompassing PETheader.py and detectorResponse.py as well as the example cells displayed below.
 
 Below showcases the use of select tools offered by this suite as given in the example cells from experimentalPETAnalysis.ipynb. The data being used below comes from two 16x8 LYSO crystal arrays placed in coincidence and irradiated with a 10 $\mu$Ci Na-22 source. 
 
