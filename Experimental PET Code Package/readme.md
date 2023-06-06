@@ -29,21 +29,25 @@ convertDataFrameToGeoID(df)
 
 
 ```python
-Eres,photopeakcut,fit_params = SingleChannelEnergyResponse(df,1415,100,1.5) #(dataframe,channelID,number of bins,sigma cut on photopeak)
+leftchannel = 1415
+bins = 100
+sigma_cut = 2
+
+Eres,photopeakcut,fit_params = SingleChannelEnergyResponse(df,channel,bins,sigma_cut) #(dataframe,channelID,number of bins,sigma cut on photopeak)
 
 # here we add labels 
-plt.ylabel('Counts',fontsize = 18)
-plt.xlabel('Charge in DAQ Units',fontsize = 18)
-plt.title('Coincidence Energy Spectrum (Channel 1415)',fontsize = 18)
-plt.xticks(fontsize = 14)
-plt.yticks(fontsize = 14)
+plt.ylabel('Counts',fontsize = 18,color = 'white')
+plt.xlabel('Charge in DAQ Units',fontsize = 18,color = 'white')
+plt.title('Coincidence Energy Spectrum (Channel 1415)',fontsize = 18,color = 'white')
+plt.xticks(fontsize = 14,color = 'white')
+plt.yticks(fontsize = 14,color = 'white')
 
 print('The Energy Resolution is ' + str(np.round(Eres,2)) + '% \n')
 print('The threshold charge for a coincidence hit in the photopeak is ' + str(np.round(photopeakcut,2)) + ' in DAQ Units \n')
 print('The gaussian fit parameters are:')
 print('A = ' + str(np.round(fit_params[0],2)))
-print('µ (mean) = ' + str(np.round(fit_params[1],2)) + ' charge in DAQ Units',color = 'white')
-print('σ (std) = ' + str(np.round(fit_params[2],2)) + ' charge in DAQ Units',color = 'white')
+print('µ (mean) = ' + str(np.round(fit_params[1],2)) + ' charge in DAQ Units')
+print('σ (std) = ' + str(np.round(fit_params[2],2)) + ' charge in DAQ Units')
 ```
     The Energy Resolution is 9.4% 
 
@@ -68,7 +72,11 @@ print('σ (std) = ' + str(np.round(fit_params[2],2)) + ' charge in DAQ Units',co
 
 
 ```python
-CTR,fit_params = getCoincidenceTimeDiffs(df,1415,154,100)
+leftchannel = 1415
+rightchannel = 154
+bins = 100
+
+CTR,fit_params = getCoincidenceTimeDiffs(df,leftchannel,rightchannel,bins)
 
 # here we add labels 
 plt.ylabel('Counts',fontsize = 18,color = 'white')
@@ -100,16 +108,11 @@ print('σ (std) = ' + str(np.round(fit_params[2],2)) + ' ps')
 
 ## Plotting Coincidence Time Distribution with photopeak cuts
 - here we use SingleChannelEnergyResponse() and getCoincidenceTimeDiffs() together. We call SingleChannelEnergyResponse() twice, once for the left and right channels respectively. 
-- In getCoincidenceTimeDiffs() can set photocut to be True and use the return values of SingleChannelEnergyResponse() to cut the left and right channel data to be within 1.5$\sigma$ within their respective photopeaks. 
+- In getCoincidenceTimeDiffs(), we can set photocut to be True and use the return values of SingleChannelEnergyResponse() to cut the left and right channel data to only include detctions that fall 2$\sigma$ within their respective photopeaks. 
 - This can refine timing distributions to be narrower since this requires the timing differences to come from photoelectric effect events. 
 
 
 ```python
-leftchannel = 1415
-rightchannel = 154
-bins = 100
-sigma_cut = 2
-
 Eres_left,photopeakcut_left,fitParams_left = SingleChannelEnergyResponse(df,leftchannel,bins,sigma_cut)
 plt.close() # we visalized this above, so let's close the figure to save memory
 Eres_right,photopeakcut_right,fitParams_right = SingleChannelEnergyResponse(df,rightchannel,bins,sigma_cut)
