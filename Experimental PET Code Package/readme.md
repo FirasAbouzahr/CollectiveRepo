@@ -24,7 +24,7 @@ convertDataFrameToGeoID(df)
 
 
 ## Plotting a single channel coincident energy spectrum
-- fitted with a gaussian to get energy resolution
+- SingleChannelEnergyResponse() plots energy spectra for a given channel ID's coincidence detections with a gaussian fit. It returns 3 items in the following order: the energy resolution value (float), the photopeak charge value cut (float), and the gaussian fit parameters (list).
 - SingleChannelEnergyResponse() purposefully leaves the figure open so we can edit plot aesthetics outside of the function, so after we call the function we set our own labels.
 
 
@@ -67,7 +67,7 @@ print('σ (std) = ' + str(np.round(fit_params[2],2)) + ' charge in DAQ Units')
 
 
 ## Plotting Coincidence Time Distribution for a given Channel pair
-- fitted with a gaussian to get coincidence time resolution (CTR)
+- getCoincidenceTimeDiffs() plots the coincidence detection timing difference distribution for a gievn coincident channel pair with a gaussian fit. It returns 2 items in the following order: the coincidence timing resolution (CTR) value (float) and the gaussian fit parameters (list).
 - getCoincidenceTimeDiffs() purposefully leaves the figure open so we can edit plot aesthetics outside of the function, so after we call the function we set our own labels. 
 - Below we look at the timing differnces from the lines-of-response (coincidence hits) betwwen the left and right channel IDs 1415 and 154, respectively.
 
