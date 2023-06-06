@@ -12,7 +12,7 @@ Below showcases the use of select tools offered by this suite as given in the ex
 
 
 ```python
-df = getCoincidenceDataFrame('Desktop/BGO_30min_410mm_Run2_coinc.dat')
+df = getCoincidenceDataFrame('LYSO_example_coinc.dat')
 convertDataFrameToGeoID(df)
 ```
 
