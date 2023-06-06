@@ -4,7 +4,7 @@ from PETheader import *
 def gaussian(x,A,mu,sig):
     return A * np.exp(-((x-mu)/sig)**2)
 
-def SingleChannelEnergyResponse(df,channelID,bins):
+def SingleChannelEnergyResponse(df,channelID,bins,sigma_cut=2.5):
     if channelID in np.unique(df.ChannelIDL):
         df = df[df.ChannelIDL == channelID]
         data = df.ChargeL
@@ -25,16 +25,32 @@ def SingleChannelEnergyResponse(df,channelID,bins):
         xspace = np.linspace(p[1]-2.5*p[2],p[1]+2.5*p[2])
         ax.plot(xspace,gaussian(xspace,*p),color = 'red',linestyle='dashed')
         FWHM = abs(2.355 * p[2])
+        photopeakcut = p[1]-sigma_cut*p[2]
         eres = FWHM / p[1] * 100
     except:
         print('Fit-Failed')
         eres = None
-    return eres
+        photopeakcut = None
+    
+    return eres,photopeakcut,p
 
 
-def getCoincidenceTimeDiffs(df,IDL,IDR,bins):
+def getChannelPairs(df,threshold):
+    channelData = df.drop(['TimeL','ChargeL','TimeR','ChargeR'],axis=1)
+    uniqueChannelPairs,Occurences = np.unique(channelData.to_numpy(),axis = 0,return_counts = True)
+    mostActiveChannels = np.where(Occurences >= threshold)[0]
+    uniqueChannelPairs = uniqueChannelPairs[mostActiveChannels]
+    return uniqueChannelPairs
+
+
+def getCoincidenceTimeDiffs(df,IDL,IDR,bins,photocut = False,photopeakcuts=[0,0]):
     df_coinc = df[df.ChannelIDL == IDL]
     df_coinc = df_coinc[df_coinc.ChannelIDR == IDR]
+    
+    # cut data such that it only encompasses data in the photopeak
+    if photocut == True:
+        df_coinc = df_coinc[df_coinc.ChargeL >= photopeakcuts[0]]
+        df_coinc = df_coinc[df_coinc.ChargeR >= photopeakcuts[1]]
     
     timeDiffs = []
     for timeL,timeR in zip(df_coinc.TimeL,df_coinc.TimeR):
@@ -46,9 +62,7 @@ def getCoincidenceTimeDiffs(df,IDL,IDR,bins):
     
     A = np.max(y)
     mu = x[np.where(y == A)[0][0]]
-    std_cut = x[x >= mu - 2*mu]
-    std = np.std(std_cut[std_cut <= 2*mu])
-    guess = [A,mu,std]
+    guess = [A,mu,np.std(timeDiffs)]
     
     try:
         p,c = curve_fit(gaussian,bincenters,y,p0=guess)
@@ -57,6 +71,7 @@ def getCoincidenceTimeDiffs(df,IDL,IDR,bins):
         CTR = abs(2.355 * p[2])
     except:
         print('Fit-Failed')
-        eres = None
-    return CTR
+        CTR = None
+        
+    return CTR,p
     

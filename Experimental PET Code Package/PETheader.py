@@ -156,7 +156,7 @@ def toGeoChannelID(AbsChannelID):
     GeoChannelID = 10**4 * slaveID + 10**2 * chipID + AbsPCB_ChanID % 64
     return GeoChannelID
 
-# all credit to Kyle Klein for toGeoChannelID function! 
+# all credit to Kyle Klein for toGeoChannelID function!
 
 
 # call this function to read in data in the manner we always do, this way we dont have to type this code every time
@@ -164,7 +164,16 @@ def toGeoChannelID(AbsChannelID):
 def getCoincidenceDataFrame(file,chunksize = None,convert_time_units = 1):
     df = pd.read_csv(file,sep='\t',usecols=[2,3,4,7,8,9],chunksize=chunksize)
     df.columns = ['TimeL', 'ChargeL', 'ChannelIDL', 'TimeR', 'ChargeR', 'ChannelIDR']
-        
+    df['TimeL'] = df['TimeL'] * convert_time_units
+    df['TimeR'] = df['TimeR'] * convert_time_units
+    
+    return df
+
+def getSinglesDataFrame(file,chunksize = None,convert_time_units = 1):
+    df = pd.read_csv(file,sep='\t',chunksize=chunksize)
+    df.columns = ['Time', 'Charge', 'ChannelID']
+    df['Time'] = df['Time'] * convert_time_units
+    
     return df
 
 
@@ -177,3 +186,5 @@ def convertDataFrameToGeoID(df):
     df['ChannelIDL'] = np.array(geoIDL).astype(int)
     df['ChannelIDR'] = np.array(geoIDR).astype(int)
     return 0
+
+
